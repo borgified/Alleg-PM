@@ -1,12 +1,11 @@
 Alleg::PM(3)          User Contributed Perl Documentation         Alleg::PM(3)
 
 
-
-NNAAMMEE
+NAME
        Alleg::PM - an interface for sending private messages (PMs) through
        http://freeallegiance.org forums
 
-SSYYNNOOPPSSIISS
+SYNOPSIS
                my $agent = WWW::Mechanize->new();
 
                $agent->get('http://www.freeallegiance.org/forums/index.php');
@@ -28,7 +27,7 @@ SSYYNNOOPPSSIISS
                $agent->field('entered_name', $to);
                $agent->click_button( number => 1);
 
-DDEESSCCRRIIPPTTIIOONN
+DESCRIPTION
        Alleg::PM is a simple interface using WWW::Mechanize to automate the
        login process and sending of PMs. This is useful for sending multiple
        PMs to a group of forum members to advertise an event.
