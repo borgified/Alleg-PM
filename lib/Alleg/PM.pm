@@ -9,26 +9,21 @@ Alleg::PM - an interface for sending private messages (PMs) through http://freea
 
 =head1 SYNOPSIS
 
-	my $agent = WWW::Mechanize->new();
 
-	$agent->get('http://www.freeallegiance.org/forums/index.php');
-	$agent->follow_link(text => 'Log In', n => '1');
-	$agent->form_name('LOGIN');
-	$agent->field('UserName', $username);
-	$agent->tick('CookieDate', '1');
-	$agent->field('PassWord', $password);
-	$agent->click();
+	use Alleg::PM;
+	
+	my %config = do "/secret/alleg.config";
+	
+	my %input;
+	
+	$input{'username'}=$config{'username'};
+	$input{'password'}=$config{'password'};
+	$input{'to'}='fwiffo';
+	$input{'message'}='testing pm automation';
+	$input{'subject'}='auto subject';
+	
+	PM::send_pm(\%input);
 
-	$agent->get('http://www.freeallegiance.org/forums/index.php?act=Msg&amp;CODE=04');
-
-	$agent->follow_link(text => 'Compose New Message');
-
-	$agent->form_name('REPLIER');
-	$agent->field('Post', $message);
-	$agent->field('from_contact', '-');
-	$agent->field('msg_title', $subject);
-	$agent->field('entered_name', $to);
-	$agent->click_button( number => 1);
 
 =head1 DESCRIPTION
 
