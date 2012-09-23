@@ -6,9 +6,11 @@ my %config = do "/secret/alleg.config";
 
 my %input;
 
+my @array = ("fwiffo","fwiffo");
+
 $input{'username'}=$config{'username'};
 $input{'password'}=$config{'password'};
-$input{'to'}='fwiffo';
+$input{'to'}= \@array;
 $input{'message'}='testing pm automation';
 $input{'subject'}='auto subject';
 

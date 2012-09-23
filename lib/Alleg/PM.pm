@@ -49,7 +49,7 @@ sub send_pm {
 
 	my $username = $$hashref{'username'};
 	my $password = $$hashref{'password'};
-	my $to = $$hashref{'to'};
+	my $to = $$hashref{'to'}; #this is going to be an array ref
 	my $message = $$hashref{'message'};
 	my $subject = $$hashref{'subject'};
 
@@ -63,16 +63,21 @@ sub send_pm {
 	$agent->field('PassWord', $password);
 	$agent->click();
 
-	$agent->get('http://www.freeallegiance.org/forums/index.php?act=Msg&amp;CODE=04');
 
-	$agent->follow_link(text => 'Compose New Message');
+	foreach my $recipient (@$to){
 
-	$agent->form_name('REPLIER');
-	$agent->field('Post', $message);
-	$agent->field('from_contact', '-');
-	$agent->field('msg_title', $subject);
-	$agent->field('entered_name', $to);
-	$agent->click_button( number => 1);
+		$agent->get('http://www.freeallegiance.org/forums/index.php?act=Msg&amp;CODE=04');
+
+		$agent->follow_link(text => 'Compose New Message');
+
+		$agent->form_name('REPLIER');
+		$agent->field('Post', $message);
+		$agent->field('from_contact', '-');
+		$agent->field('msg_title', $subject);
+		$agent->field('entered_name', $recipient);
+		$agent->click_button( number => 1);
+		print "done $recipient\n";
+	}
 
 }
 1;
