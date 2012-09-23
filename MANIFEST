@@ -1,0 +1,4 @@
+MANIFEST
+Makefile.PL
+lib/Alleg/PM.pm
+bin/test.pl
