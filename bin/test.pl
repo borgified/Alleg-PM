@@ -1,12 +1,13 @@
 #!/usr/bin/env perl
 
+use lib "../lib";
 use Alleg::PM;
 
 my %config = do "/secret/alleg.config";
 
 my %input;
 
-my @array = ("fwiffo","fwiffo");
+my @array = ("fwiffoo","fwiffo");
 
 $input{'username'}=$config{'username'};
 $input{'password'}=$config{'password'};

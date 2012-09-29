@@ -76,7 +76,11 @@ sub send_pm {
 		$agent->field('msg_title', $subject);
 		$agent->field('entered_name', $recipient);
 		$agent->click_button( number => 1);
-		print "done $recipient\n";
+		if($agent->content() =~ /There is no such member/){
+			print "unable to PM $recipient\n";
+		}else{
+			print "PM sent to $recipient\n";
+		}
 	}
 
 }
