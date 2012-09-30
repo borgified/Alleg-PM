@@ -63,6 +63,11 @@ sub send_pm {
 	$agent->field('PassWord', $password);
 	$agent->click();
 
+	#check if login failed
+	if($agent->content() =~ /The following errors were found/){
+		print "wrong username or password, cannot continue\n";
+		exit;
+	}
 
 	foreach my $recipient (@$to){
 
