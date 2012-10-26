@@ -15,5 +15,5 @@ $input{'to'}= \@array;
 $input{'message'}='testing pm automation';
 $input{'subject'}='auto subject';
 
-PM::send_pm(\%input);
+Alleg::PM::send_pm(\%input);
 

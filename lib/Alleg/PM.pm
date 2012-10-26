@@ -1,4 +1,4 @@
-package PM;
+package Alleg::PM;
 
 #need a check for failed pm sending due to wrong recipient name
 
@@ -36,9 +36,7 @@ use warnings;
 use strict;
 use WWW::Mechanize;
 
-use vars qw($VERSION);
-
-$VERSION = '0.01';
+our $VERSION = '0.01';
 
 my @ISA = qw(Exporter);
 my @EXPORT = qw(send_pm);
