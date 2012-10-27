@@ -41,6 +41,9 @@ our $VERSION = '0.01';
 my @ISA = qw(Exporter);
 my @EXPORT = qw(send_pm);
 
+
+my $popup_form = '<a href="https://docs.google.com/spreadsheet/embeddedform?formkey=dDFmVFRZYmlwbVJvZXFRTnA5ZlBOZ1E6MQ" onclick="window.open('https://docs.google.com/spreadsheet/embeddedform?formkey=dDFmVFRZYmlwbVJvZXFRTnA5ZlBOZ1E6MQ','popup','width=760,height=640,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0'); return false">fix it</a>';
+
 sub send_pm {
 
 	my($hashref)=shift @_;
@@ -80,7 +83,7 @@ sub send_pm {
 		$agent->field('entered_name', $recipient);
 		$agent->click_button( number => 1);
 		if($agent->content() =~ /There is no such member/){
-			print "unable to PM $recipient<br>\n";
+			print "unable to PM $recipient $popup_form<br>\n";
 		}else{
 			print "PM sent to $recipient<br>\n";
 		}
