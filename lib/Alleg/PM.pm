@@ -36,7 +36,7 @@ use warnings;
 use strict;
 use WWW::Mechanize;
 
-our $VERSION = '0.01';
+our $VERSION = '1.03';
 
 my @ISA = qw(Exporter);
 my @EXPORT = qw(send_pm);
@@ -70,7 +70,62 @@ sub send_pm {
 		exit;
 	}
 
+
+
+#before we try to send to our recipients, access google docs to see if we need to
+#replace any callsigns with appropriate PMable forum name
+#testing done in test-google-spreadsheet
+
+
+use Net::Google::Spreadsheets;
+
+my %config = do '/secret/google.config';
+my $key = $config{'key'};
+
+my $service = Net::Google::Spreadsheets->new(
+		username => $config{'username'},
+		password => $config{'password'},
+);
+
+# find a spreadsheet by key
+my $spreadsheet = $service->spreadsheet(
+	{
+		key => $key,
+    }
+);
+
+# find a worksheet by title
+my $worksheet = $spreadsheet->worksheet(
+	{
+		title => 'Sheet1'
+	}
+);
+
+my @rows = $worksheet->rows;
+
+my %db; #holds callsign and forum username equivalences
+#key = callsign
+#value = forumname
+
+foreach my $row (@rows){
+
+	my $callsign ="${$row->content}{'enterapilotscallsign'}";
+	my $forumname ="${$row->content}{'entertheircorrespondingforumname'}";
+
+	$db{lc("$callsign")}="$forumname";
+
+}
+
+#returning to our regularly scheduled program...
+
+
 	foreach my $recipient (@$to){
+
+		my $callsign = $recipient;
+
+		if(exists($db{lc($recipient)}) && ($db{lc($recipient)} ne "")){
+			$recipient=$db{lc($recipient)};
+		}
 
 		$agent->get('http://www.freeallegiance.org/forums/index.php?act=Msg&amp;CODE=04');
 
@@ -80,12 +135,12 @@ sub send_pm {
 		$agent->field('Post', $message);
 		$agent->field('from_contact', '-');
 		$agent->field('msg_title', $subject);
-		$agent->field('entered_name', $recipient);
+		$agent->field('entered_name', "$recipient");
 		$agent->click_button( number => 1);
 		if($agent->content() =~ /There is no such member/){
 			print "unable to PM $recipient $popup_form<br>\n";
 		}else{
-			print "PM sent to $recipient<br>\n";
+			print "PM sent to $callsign($recipient)<br>\n";
 		}
 	}
 
